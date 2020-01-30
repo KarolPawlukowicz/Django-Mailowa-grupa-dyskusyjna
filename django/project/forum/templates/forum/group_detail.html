@@ -1,0 +1,32 @@
+{% extends "forum/base.html" %}
+{% block content %}
+    <group class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <h2 class="mr-2">{{ object.group_name }}</h2>
+            {% if object.group_code in user.profile.user_codes %}
+                <p class="text-secondary">{{ object.group_code }}</p>
+                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'group-delete' object.id %}">Delete</a>
+            {% else %}
+                <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'profile' %}">Join</a>
+            {% endif %}
+        </div>
+        {% if object.group_code in user.profile.user_codes %}
+            {% for fr, sb, cts in myList %}
+              {% if object.group_code == sb %}
+                <article class="media content-section">
+                    <div class="media-body">
+                          <div class="article-metadata">
+                              <a class="mr-2">{{ fr }}</a>
+                          </div>
+                          <p class="article-content">{{ cts }}</p>
+                    </div>
+                </article>
+              {% endif %}
+            {% endfor %}
+        {% else %}
+          <h2 class="mr-2">You have to join to the group to see posts</h2>
+        {% endif %}
+      </div>
+    </group>
+{% endblock content %}
